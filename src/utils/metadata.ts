@@ -106,3 +106,16 @@ export function findProperty(
   }
   return undefined;
 }
+
+export function isEmptyString(node: TSESTree.Node): boolean {
+  if (node.type === AST_NODE_TYPES.Literal && typeof node.value === "string") {
+    return node.value.trim() === "";
+  }
+  if (node.type === AST_NODE_TYPES.TemplateLiteral) {
+    if (node.expressions.length !== 0) return false;
+    const quasi = node.quasis[0];
+    if (!quasi || node.quasis.length !== 1) return false;
+    return quasi.value.cooked.trim() === "";
+  }
+  return false;
+}

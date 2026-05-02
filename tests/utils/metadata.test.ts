@@ -1,7 +1,11 @@
 import { parse } from "@typescript-eslint/parser";
 import type { TSESTree } from "@typescript-eslint/utils";
 import { describe, expect, it } from "vitest";
-import { findMetadataExport, findProperty } from "../../src/utils/metadata";
+import {
+  findMetadataExport,
+  findProperty,
+  isEmptyString,
+} from "../../src/utils/metadata";
 
 function parseProgram(code: string): TSESTree.Program {
   return parse(code, {
@@ -112,5 +116,44 @@ describe("findProperty", () => {
       export const metadata = { [k]: "Hello" };
     `);
     expect(findProperty(obj, "title")).toBeUndefined();
+  });
+});
+
+describe("isEmptyString", () => {
+  function getValue(code: string): TSESTree.Node {
+    const program = parseProgram(code);
+    const result = findMetadataExport(program);
+    if (!result?.object) throw new Error("expected metadata object in test");
+    const prop = findProperty(result.object, "title");
+    if (!prop) throw new Error("expected title property in test");
+    return prop.value;
+  }
+
+  it("returns true for empty string literal", () => {
+    expect(isEmptyString(getValue(`export const metadata = { title: "" };`))).toBe(true);
+  });
+
+  it("returns true for whitespace-only string literal", () => {
+    expect(isEmptyString(getValue(`export const metadata = { title: "   " };`))).toBe(true);
+  });
+
+  it("returns true for empty template literal", () => {
+    expect(isEmptyString(getValue("export const metadata = { title: `` };"))).toBe(true);
+  });
+
+  it("returns false for non-empty string literal", () => {
+    expect(isEmptyString(getValue(`export const metadata = { title: "Hello" };`))).toBe(false);
+  });
+
+  it("returns false for template literal with expressions", () => {
+    expect(
+      isEmptyString(getValue("export const metadata = { title: `${x}` };")),
+    ).toBe(false);
+  });
+
+  it("returns false for non-string nodes", () => {
+    expect(
+      isEmptyString(getValue(`export const metadata = { title: { template: "%s" } };`)),
+    ).toBe(false);
   });
 });

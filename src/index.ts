@@ -1,4 +1,5 @@
 import type { TSESLint } from "@typescript-eslint/utils";
+import { noEmptyMetadataFields } from "./rules/no-empty-metadata-fields";
 import { requireMetadataDescription } from "./rules/require-metadata-description";
 import { requireMetadataTitle } from "./rules/require-metadata-title";
 import { requireOpenGraph } from "./rules/require-open-graph";
@@ -7,6 +8,7 @@ const rules = {
   "require-metadata-title": requireMetadataTitle,
   "require-metadata-description": requireMetadataDescription,
   "require-open-graph": requireOpenGraph,
+  "no-empty-metadata-fields": noEmptyMetadataFields,
 };
 
 const plugin = {
@@ -26,6 +28,7 @@ plugin.configs.recommended = {
     "next-seo/require-metadata-title": "error",
     "next-seo/require-metadata-description": "error",
     "next-seo/require-open-graph": "error",
+    "next-seo/no-empty-metadata-fields": "error",
   },
 };
 
