@@ -115,7 +115,7 @@ export function isEmptyString(node: TSESTree.Node): boolean {
     if (node.expressions.length !== 0) return false;
     const quasi = node.quasis[0];
     if (!quasi || node.quasis.length !== 1) return false;
-    return quasi.value.cooked.trim() === "";
+    return (quasi.value.cooked ?? quasi.value.raw).trim() === "";
   }
   return false;
 }
