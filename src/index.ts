@@ -1,10 +1,12 @@
 import type { TSESLint } from "@typescript-eslint/utils";
 import { requireMetadataDescription } from "./rules/require-metadata-description";
 import { requireMetadataTitle } from "./rules/require-metadata-title";
+import { requireOpenGraph } from "./rules/require-open-graph";
 
 const rules = {
   "require-metadata-title": requireMetadataTitle,
   "require-metadata-description": requireMetadataDescription,
+  "require-open-graph": requireOpenGraph,
 };
 
 const plugin = {
@@ -23,6 +25,7 @@ plugin.configs.recommended = {
   rules: {
     "next-seo/require-metadata-title": "error",
     "next-seo/require-metadata-description": "error",
+    "next-seo/require-open-graph": "error",
   },
 };
 

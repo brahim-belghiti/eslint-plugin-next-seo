@@ -21,19 +21,19 @@ tester.run("require-metadata-description", requireMetadataDescription, {
   invalid: [
     {
       code: `export const metadata = {};`,
-      errors: [{ messageId: "missingDescription" }],
+      errors: [{ messageId: "missingField", data: { field: "description" } }],
     },
     {
       code: `export const metadata = { title: "x" };`,
-      errors: [{ messageId: "missingDescription" }],
+      errors: [{ messageId: "missingField", data: { field: "description" } }],
     },
     {
       code: `export function generateMetadata() { return { title: "x" }; }`,
-      errors: [{ messageId: "missingDescription" }],
+      errors: [{ messageId: "missingField", data: { field: "description" } }],
     },
     {
       code: `export const generateMetadata = () => ({ title: "x" });`,
-      errors: [{ messageId: "missingDescription" }],
+      errors: [{ messageId: "missingField", data: { field: "description" } }],
     },
   ],
 });
