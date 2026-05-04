@@ -23,7 +23,7 @@ export default [
 ];
 ```
 
-That enables all rules — metadata rules at `error`, plus the JSON-LD rules (`valid-jsonld-type` at `error`, `valid-jsonld-fields` at `warn`).
+That enables all rules — metadata rules at `error` (length rules at `warn`), JSON-LD rules (`valid-jsonld-type` at `error`, `valid-jsonld-fields` at `warn`), and JSX content rules.
 
 ### Manual rule selection
 
@@ -47,14 +47,19 @@ All rules ship in `configs.recommended`.
 
 **Metadata rules** (analyze the `metadata` export / `generateMetadata` function):
 
-| Rule | What it catches |
-|------|-----------------|
-| [require-metadata-title](docs/rules/require-metadata-title.md) | Metadata export missing `title` |
-| [require-metadata-description](docs/rules/require-metadata-description.md) | Metadata export missing `description` |
-| [require-open-graph](docs/rules/require-open-graph.md) | Metadata export missing `openGraph` |
-| [no-empty-metadata-fields](docs/rules/no-empty-metadata-fields.md) | `title` or `description` set to an empty string |
-| [no-template-title-on-page](docs/rules/no-template-title-on-page.md) | `title.template` used in a page file (only valid in `layout`) |
-| [og-image-in-metadata](docs/rules/og-image-in-metadata.md) | `openGraph` set without `images` |
+| Rule | Severity | What it catches |
+|------|----------|-----------------|
+| [require-metadata-title](docs/rules/require-metadata-title.md) | error | Metadata export missing `title` |
+| [require-metadata-description](docs/rules/require-metadata-description.md) | error | Metadata export missing `description` |
+| [require-open-graph](docs/rules/require-open-graph.md) | error | Metadata export missing `openGraph` |
+| [no-empty-metadata-fields](docs/rules/no-empty-metadata-fields.md) | error | `title` or `description` set to an empty string |
+| [no-template-title-on-page](docs/rules/no-template-title-on-page.md) | error | `title.template` used in a page file (only valid in `layout`) |
+| [og-image-in-metadata](docs/rules/og-image-in-metadata.md) | error | `openGraph` set without `images` |
+| [metadata-title-length](docs/rules/metadata-title-length.md) | warn | Static `title` over 60 characters (truncated in SERPs) |
+| [metadata-description-length](docs/rules/metadata-description-length.md) | warn | Static `description` over 160 characters (truncated in SERPs) |
+| [valid-twitter-card](docs/rules/valid-twitter-card.md) | error | `twitter.card` not in the valid set |
+| [valid-openGraph-type](docs/rules/valid-openGraph-type.md) | error | `openGraph.type` not a valid Open Graph type |
+| [metadata-keywords-shape](docs/rules/metadata-keywords-shape.md) | error | `keywords` passed as a string instead of an array |
 
 **JSON-LD rules** (analyze `<script type="application/ld+json">` blocks):
 
