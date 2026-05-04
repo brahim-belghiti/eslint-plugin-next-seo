@@ -5,6 +5,7 @@ import { ogImageInMetadata } from "./rules/og-image-in-metadata";
 import { requireMetadataDescription } from "./rules/require-metadata-description";
 import { requireMetadataTitle } from "./rules/require-metadata-title";
 import { requireOpenGraph } from "./rules/require-open-graph";
+import { singleH1PerPage } from "./rules/single-h1-per-page";
 import { validJsonldFields } from "./rules/valid-jsonld-fields";
 import { validJsonldType } from "./rules/valid-jsonld-type";
 
@@ -17,12 +18,13 @@ const rules = {
   "og-image-in-metadata": ogImageInMetadata,
   "valid-jsonld-type": validJsonldType,
   "valid-jsonld-fields": validJsonldFields,
+  "single-h1-per-page": singleH1PerPage,
 };
 
 const plugin = {
   meta: {
     name: "eslint-plugin-next-seo",
-    version: "0.2.0",
+    version: "0.3.0",
   },
   rules,
   configs: {} as Record<string, TSESLint.FlatConfig.Config>,
@@ -41,6 +43,7 @@ plugin.configs.recommended = {
     "next-seo/og-image-in-metadata": "error",
     "next-seo/valid-jsonld-type": "error",
     "next-seo/valid-jsonld-fields": "warn",
+    "next-seo/single-h1-per-page": "error",
   },
 };
 

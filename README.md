@@ -63,6 +63,12 @@ All rules ship in `configs.recommended`.
 | [valid-jsonld-type](docs/rules/valid-jsonld-type.md) | Missing `@context`/`@type`, plus typo detection (`"Articel"` → `"Article"`) |
 | [valid-jsonld-fields](docs/rules/valid-jsonld-fields.md) | Missing fields needed for Google rich-results per `@type` (warn-level by default) |
 
+**JSX content rules** (analyze the rendered output of page files):
+
+| Rule | What it catches |
+|------|-----------------|
+| [single-h1-per-page](docs/rules/single-h1-per-page.md) | More than one literal `<h1>` in a `page.tsx` |
+
 ## How it analyzes
 
 Both metadata shapes are supported:
