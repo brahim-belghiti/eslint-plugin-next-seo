@@ -15,6 +15,14 @@
   ],
   "license": "MIT",
   "author": "Brahim Belghiti <brahim.belghiti@proton.me>",
+  "homepage": "https://github.com/brahim-belghiti/eslint-plugin-next-seo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brahim-belghiti/eslint-plugin-next-seo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brahim-belghiti/eslint-plugin-next-seo/issues"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
