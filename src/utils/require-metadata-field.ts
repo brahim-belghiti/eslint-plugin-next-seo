@@ -16,7 +16,7 @@ export function requireMetadataField(opts: RequireMetadataFieldOptions) {
         description: opts.description,
       },
       messages: {
-        missingField: "Metadata export is missing a `{{field}}` property.",
+        missingField: "Metadata export is missing the `{{field}}` property.",
       },
       schema: [],
     },
