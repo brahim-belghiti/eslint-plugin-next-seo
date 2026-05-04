@@ -23,7 +23,7 @@ export default [
 ];
 ```
 
-That enables all six rules at `error`.
+That enables all rules — metadata rules at `error`, plus the JSON-LD rules (`valid-jsonld-type` at `error`, `valid-jsonld-fields` at `warn`).
 
 ### Manual rule selection
 
@@ -43,7 +43,9 @@ export default [
 
 ## Rules
 
-All six rules ship in `configs.recommended`.
+All rules ship in `configs.recommended`.
+
+**Metadata rules** (analyze the `metadata` export / `generateMetadata` function):
 
 | Rule | What it catches |
 |------|-----------------|
@@ -53,6 +55,13 @@ All six rules ship in `configs.recommended`.
 | [no-empty-metadata-fields](docs/rules/no-empty-metadata-fields.md) | `title` or `description` set to an empty string |
 | [no-template-title-on-page](docs/rules/no-template-title-on-page.md) | `title.template` used in a page file (only valid in `layout`) |
 | [og-image-in-metadata](docs/rules/og-image-in-metadata.md) | `openGraph` set without `images` |
+
+**JSON-LD rules** (analyze `<script type="application/ld+json">` blocks):
+
+| Rule | What it catches |
+|------|-----------------|
+| [valid-jsonld-type](docs/rules/valid-jsonld-type.md) | Missing `@context`/`@type`, plus typo detection (`"Articel"` → `"Article"`) |
+| [valid-jsonld-fields](docs/rules/valid-jsonld-fields.md) | Missing fields needed for Google rich-results per `@type` (warn-level by default) |
 
 ## How it analyzes
 

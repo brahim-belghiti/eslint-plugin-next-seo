@@ -5,6 +5,8 @@ import { ogImageInMetadata } from "./rules/og-image-in-metadata";
 import { requireMetadataDescription } from "./rules/require-metadata-description";
 import { requireMetadataTitle } from "./rules/require-metadata-title";
 import { requireOpenGraph } from "./rules/require-open-graph";
+import { validJsonldFields } from "./rules/valid-jsonld-fields";
+import { validJsonldType } from "./rules/valid-jsonld-type";
 
 const rules = {
   "require-metadata-title": requireMetadataTitle,
@@ -13,12 +15,14 @@ const rules = {
   "no-empty-metadata-fields": noEmptyMetadataFields,
   "no-template-title-on-page": noTemplateTitleOnPage,
   "og-image-in-metadata": ogImageInMetadata,
+  "valid-jsonld-type": validJsonldType,
+  "valid-jsonld-fields": validJsonldFields,
 };
 
 const plugin = {
   meta: {
     name: "eslint-plugin-next-seo",
-    version: "0.1.0",
+    version: "0.2.0",
   },
   rules,
   configs: {} as Record<string, TSESLint.FlatConfig.Config>,
@@ -35,6 +39,8 @@ plugin.configs.recommended = {
     "next-seo/no-empty-metadata-fields": "error",
     "next-seo/no-template-title-on-page": "error",
     "next-seo/og-image-in-metadata": "error",
+    "next-seo/valid-jsonld-type": "error",
+    "next-seo/valid-jsonld-fields": "warn",
   },
 };
 
