@@ -58,6 +58,35 @@ tester.run("single-h1-per-page", singleH1PerPage, {
       code: `export const dynamic = "force-dynamic";`,
       filename: "/app/about/page.ts",
     },
+
+    // Early-return pattern — multiple returns each with one H1, mutually exclusive
+    {
+      code: `
+        export default function Page({ loading, error }: any) {
+          if (loading) return <h1>Loading</h1>;
+          if (error) return <h1>Error</h1>;
+          return <h1>Done</h1>;
+        }
+      `,
+      filename: "/app/favorites/page.tsx",
+    },
+
+    // Early returns where some branches have no h1
+    {
+      code: `
+        export default function Page({ loading }: any) {
+          if (loading) return <div>Loading...</div>;
+          return <main><h1>Title</h1></main>;
+        }
+      `,
+      filename: "/app/about/page.tsx",
+    },
+
+    // Arrow function with expression body, single h1
+    {
+      code: `export default () => <main><h1>Hi</h1></main>;`,
+      filename: "/app/about/page.tsx",
+    },
   ],
   invalid: [
     // Two H1s in a page — one report on the second
@@ -88,6 +117,25 @@ tester.run("single-h1-per-page", singleH1PerPage, {
     {
       code: `export default function Page() { return <div><h1>A</h1><h1>B</h1></div>; }`,
       filename: "/app/about/page.jsx",
+      errors: [{ messageId: "multipleH1" }],
+    },
+
+    // Mixed: one return is fine, the other has duplicate H1s — only report the duplicate
+    {
+      code: `
+        export default function Page({ loading }: any) {
+          if (loading) return <h1>Loading</h1>;
+          return <main><h1>A</h1><h1>B</h1></main>;
+        }
+      `,
+      filename: "/app/about/page.tsx",
+      errors: [{ messageId: "multipleH1" }],
+    },
+
+    // Arrow function expression body with two h1s
+    {
+      code: `export default () => <div><h1>A</h1><h1>B</h1></div>;`,
+      filename: "/app/about/page.tsx",
       errors: [{ messageId: "multipleH1" }],
     },
   ],
