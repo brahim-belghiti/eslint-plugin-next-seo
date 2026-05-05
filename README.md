@@ -119,6 +119,23 @@ The CLI auto-detects `app/` (or `src/app/`) under the current working directory.
 
 Exit code is `1` when any error is reported, `0` otherwise. Run it in CI alongside your ESLint step.
 
+### Init
+
+Scaffold `sitemap.ts` and/or `robots.ts` based on your actual `app/` routes:
+
+```sh
+npx next-seo init                                    # scaffold both
+npx next-seo init sitemap                            # sitemap only
+npx next-seo init robots                             # robots only
+npx next-seo init --base-url https://example.com     # set the production URL
+npx next-seo init --dry-run                          # print what would be written, don't touch the filesystem
+npx next-seo init --force                            # overwrite existing files
+```
+
+`init sitemap` walks `app/`, separates static routes (no `[param]` segments) from dynamic routes, and pre-populates the sitemap with the static set. Dynamic routes are emitted as commented-out TODO blocks so you can wire in your own data fetching.
+
+Route groups (`(name)`) and parallel route slots (`@slot`) are stripped from URL paths automatically.
+
 ## License
 
 [MIT](./LICENSE)
