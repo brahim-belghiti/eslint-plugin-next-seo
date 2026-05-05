@@ -1,8 +1,10 @@
 import type { TSESLint } from "@typescript-eslint/utils";
+import { metadataBaseRequiredForRelativeOgImages } from "./rules/metadata-base-required-for-relative-og-images";
 import { metadataDescriptionLength } from "./rules/metadata-description-length";
 import { metadataKeywordsShape } from "./rules/metadata-keywords-shape";
 import { metadataTitleLength } from "./rules/metadata-title-length";
 import { noEmptyMetadataFields } from "./rules/no-empty-metadata-fields";
+import { noMetadataInClientComponent } from "./rules/no-metadata-in-client-component";
 import { noTemplateTitleOnPage } from "./rules/no-template-title-on-page";
 import { ogImageInMetadata } from "./rules/og-image-in-metadata";
 import { requireMetadataDescription } from "./rules/require-metadata-description";
@@ -12,6 +14,7 @@ import { singleH1PerPage } from "./rules/single-h1-per-page";
 import { validJsonldFields } from "./rules/valid-jsonld-fields";
 import { validJsonldType } from "./rules/valid-jsonld-type";
 import { validOpenGraphType } from "./rules/valid-openGraph-type";
+import { validSitemapShape } from "./rules/valid-sitemap-shape";
 import { validTwitterCard } from "./rules/valid-twitter-card";
 
 const rules = {
@@ -26,6 +29,9 @@ const rules = {
   "valid-twitter-card": validTwitterCard,
   "valid-openGraph-type": validOpenGraphType,
   "metadata-keywords-shape": metadataKeywordsShape,
+  "metadata-base-required-for-relative-og-images": metadataBaseRequiredForRelativeOgImages,
+  "no-metadata-in-client-component": noMetadataInClientComponent,
+  "valid-sitemap-shape": validSitemapShape,
   "valid-jsonld-type": validJsonldType,
   "valid-jsonld-fields": validJsonldFields,
   "single-h1-per-page": singleH1PerPage,
@@ -56,6 +62,9 @@ plugin.configs.recommended = {
     "next-seo/valid-twitter-card": "error",
     "next-seo/valid-openGraph-type": "error",
     "next-seo/metadata-keywords-shape": "error",
+    "next-seo/metadata-base-required-for-relative-og-images": "error",
+    "next-seo/no-metadata-in-client-component": "error",
+    "next-seo/valid-sitemap-shape": "error",
     "next-seo/valid-jsonld-type": "error",
     "next-seo/valid-jsonld-fields": "warn",
     "next-seo/single-h1-per-page": "error",

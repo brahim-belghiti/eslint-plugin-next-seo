@@ -60,6 +60,14 @@ All rules ship in `configs.recommended`.
 | [valid-twitter-card](docs/rules/valid-twitter-card.md) | error | `twitter.card` not in the valid set |
 | [valid-openGraph-type](docs/rules/valid-openGraph-type.md) | error | `openGraph.type` not a valid Open Graph type |
 | [metadata-keywords-shape](docs/rules/metadata-keywords-shape.md) | error | `keywords` passed as a string instead of an array |
+| [metadata-base-required-for-relative-og-images](docs/rules/metadata-base-required-for-relative-og-images.md) | error | `openGraph.images` has relative URLs but no `metadataBase` set |
+| [no-metadata-in-client-component](docs/rules/no-metadata-in-client-component.md) | error | `metadata` or `generateMetadata` export in a `"use client"` file — silently ignored by Next.js |
+
+**Sitemap rules** (analyze `app/sitemap.ts`):
+
+| Rule | Severity | What it catches |
+|------|----------|-----------------|
+| [valid-sitemap-shape](docs/rules/valid-sitemap-shape.md) | error | Missing `url`, out-of-range `priority`, or invalid `changeFrequency` in sitemap entries |
 
 **JSON-LD rules** (analyze `<script type="application/ld+json">` blocks):
 
