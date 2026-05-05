@@ -101,6 +101,24 @@ export function generateMetadata() {
 
 For `generateMetadata`, only a direct `return { ... }` of an object literal is analyzed. When the function is more complex (conditionals, fetched data, returning a variable), the rules stay silent — V1 favors no false positives over completeness.
 
+## Companion CLI
+
+The package also ships a `next-seo` CLI for cross-file checks that ESLint cannot perform on a single file in isolation.
+
+```sh
+npx next-seo check
+```
+
+The CLI auto-detects `app/` (or `src/app/`) under the current working directory. Use `--dir <path>` for non-standard layouts.
+
+| Check | Severity | What it does |
+|-------|----------|--------------|
+| `require-sitemap` | error | Verifies `app/sitemap.{ts,tsx,xml}` exists |
+| `require-robots` | error | Verifies `app/robots.{ts,txt}` exists |
+| `metadata-coverage` | info | Reports the ratio of `page.tsx` files that export `metadata` directly |
+
+Exit code is `1` when any error is reported, `0` otherwise. Run it in CI alongside your ESLint step.
+
 ## License
 
 [MIT](./LICENSE)

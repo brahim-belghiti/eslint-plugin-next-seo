@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-next-seo",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "ESLint plugin to catch SEO mistakes in Next.js App Router metadata at build time",
   "keywords": [
     "eslint",
