@@ -54,6 +54,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@typescript-eslint/parser": "^8.18.0",
     "@typescript-eslint/utils": "^8.18.0"
   },
   "peerDependencies": {
@@ -61,7 +62,6 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
-    "@typescript-eslint/parser": "^8.18.0",
     "@typescript-eslint/rule-tester": "^8.18.0",
     "eslint": "^9.16.0",
     "tsup": "^8.3.5",
