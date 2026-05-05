@@ -115,9 +115,12 @@ The CLI auto-detects `app/` (or `src/app/`) under the current working directory.
 |-------|----------|--------------|
 | `require-sitemap` | error | Verifies `app/sitemap.{ts,tsx,xml}` exists |
 | `require-robots` | error | Verifies `app/robots.{ts,txt}` exists |
+| `sitemap-route-mismatch` | error | Compares static `app/` routes against URL paths in `sitemap.ts` — reports missing entries and stale paths |
 | `metadata-coverage` | info | Reports the ratio of `page.tsx` files that export `metadata` directly |
 
 Exit code is `1` when any error is reported, `0` otherwise. Run it in CI alongside your ESLint step.
+
+`sitemap-route-mismatch` extracts URL paths from string literals and template literals whose interpolations resolve to a locally-defined `const`. Dynamically generated entries (`.map()` calls, API-fetched data, unresolvable expressions) trigger an info note rather than false-positive errors. If your sitemap is fully dynamic the check stays silent — it only reports when it has enough static information to be confident.
 
 ### Init
 

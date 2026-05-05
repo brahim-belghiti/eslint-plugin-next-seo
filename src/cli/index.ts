@@ -3,6 +3,7 @@ import { parseArgs } from "node:util";
 import * as metadataCoverage from "./checks/metadata-coverage";
 import * as requireRobots from "./checks/require-robots";
 import * as requireSitemap from "./checks/require-sitemap";
+import * as sitemapRouteMismatch from "./checks/sitemap-route-mismatch";
 import { runInit } from "./init/index";
 import { print } from "./reporter";
 import type { Accumulator, } from "./types";
@@ -33,6 +34,7 @@ async function main(): Promise<void> {
     const findings = [
       ...requireSitemap.run(acc),
       ...requireRobots.run(acc),
+      ...sitemapRouteMismatch.run(acc),
       ...metadataCoverage.run(acc),
     ];
 
