@@ -40,7 +40,7 @@ const rules = {
 const plugin = {
   meta: {
     name: "eslint-plugin-next-seo",
-    version: "0.7.0",
+    version: "0.8.0",
   },
   rules,
   configs: {} as Record<string, TSESLint.FlatConfig.Config>,
