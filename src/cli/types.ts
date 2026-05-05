@@ -10,6 +10,8 @@ export type Finding = {
 export type RouteInfo = {
   filePath: string;
   hasMetadata: boolean;
+  urlPath: string;
+  isDynamic: boolean;
 };
 
 export type Accumulator = {

@@ -27,9 +27,9 @@ describe("metadata-coverage", () => {
     const findings = run(
       buildAcc({
         routes: [
-          { filePath: "/a/page.tsx", hasMetadata: true },
-          { filePath: "/b/page.tsx", hasMetadata: false },
-          { filePath: "/c/page.tsx", hasMetadata: true },
+          { filePath: "/a/page.tsx", hasMetadata: true, urlPath: "/a", isDynamic: false },
+          { filePath: "/b/page.tsx", hasMetadata: false, urlPath: "/b", isDynamic: false },
+          { filePath: "/c/page.tsx", hasMetadata: true, urlPath: "/c", isDynamic: false },
         ],
       }),
     );
@@ -40,8 +40,8 @@ describe("metadata-coverage", () => {
     const findings = run(
       buildAcc({
         routes: [
-          { filePath: "/a/page.tsx", hasMetadata: true },
-          { filePath: "/b/page.tsx", hasMetadata: true },
+          { filePath: "/a/page.tsx", hasMetadata: true, urlPath: "/a", isDynamic: false },
+          { filePath: "/b/page.tsx", hasMetadata: true, urlPath: "/b", isDynamic: false },
         ],
       }),
     );

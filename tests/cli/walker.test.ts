@@ -59,28 +59,46 @@ describe("scanRoutes", () => {
     const appDir = path.join(FIXTURES, "appDir-app", "app");
     const routes = await scanRoutes(appDir);
 
-    expect(routes).toHaveLength(2);
+    expect(routes).toHaveLength(3);
 
     const homepage = routes.find((r) => r.filePath.endsWith("app/page.tsx"));
     const contact = routes.find((r) =>
       r.filePath.endsWith("contact/page.tsx"),
     );
+    const blogSlug = routes.find((r) =>
+      r.filePath.includes(path.join("blog", "[slug]")),
+    );
 
     expect(homepage?.hasMetadata).toBe(true);
     expect(contact?.hasMetadata).toBe(false);
+    expect(blogSlug?.hasMetadata).toBe(false);
+  });
+
+  it("populates urlPath and isDynamic", async () => {
+    const appDir = path.join(FIXTURES, "appDir-app", "app");
+    const routes = await scanRoutes(appDir);
+
+    const homepage = routes.find((r) => r.filePath.endsWith("app/page.tsx"));
+    const contact = routes.find((r) =>
+      r.filePath.endsWith("contact/page.tsx"),
+    );
+    const blogSlug = routes.find((r) =>
+      r.filePath.includes(path.join("blog", "[slug]")),
+    );
+
+    expect(homepage?.urlPath).toBe("/");
+    expect(homepage?.isDynamic).toBe(false);
+
+    expect(contact?.urlPath).toBe("/contact");
+    expect(contact?.isDynamic).toBe(false);
+
+    expect(blogSlug?.urlPath).toBe("/blog/[slug]");
+    expect(blogSlug?.isDynamic).toBe(true);
   });
 
   it("returns empty array when no page files exist", async () => {
-    const appDir = path.join(FIXTURES, "appDir-app", "app", "contact");
-    // contact/ has page.tsx — wrong assertion. Use a directory with no pages.
-    // Use the sitemap-only path: there is no nested app dir there.
     const emptyDir = path.join(FIXTURES, "appDir-missing");
     const routes = await scanRoutes(emptyDir);
     expect(routes).toEqual([]);
-    // Also verify the scoped contact/ does have one
-    const scoped = await scanRoutes(appDir);
-    expect(scoped.map((r) => r.filePath.endsWith("contact/page.tsx"))).toContain(
-      true,
-    );
   });
 });

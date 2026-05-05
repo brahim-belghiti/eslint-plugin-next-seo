@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { parse } from "@typescript-eslint/parser";
 import { findMetadataExport } from "../utils/metadata";
+import { filePathToUrlPath, isDynamicPath } from "./route-paths";
 import type { RouteInfo } from "./types";
 
 const PAGE_FILE_RE = /^page\.(tsx|ts|jsx|js)$/;
@@ -92,7 +93,8 @@ export async function scanRoutes(appDir: string): Promise<RouteInfo[]> {
       const msg = err instanceof Error ? err.message : String(err);
       console.error(`next-seo: failed to parse ${filePath}: ${msg}`);
     }
-    routes.push({ filePath, hasMetadata });
+    const urlPath = filePathToUrlPath(filePath, appDir);
+    routes.push({ filePath, hasMetadata, urlPath, isDynamic: isDynamicPath(urlPath) });
   }
 
   routes.sort((a, b) => a.filePath.localeCompare(b.filePath));
