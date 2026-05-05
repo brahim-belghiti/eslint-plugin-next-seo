@@ -52,7 +52,7 @@ describe("runInit", () => {
     const output = logged.join("\n");
     expect(output).toContain("sitemap.ts");
     expect(output).toContain("robots.ts");
-    expect(output).toContain('"/about"');
+    expect(output).toContain("`${BASE_URL}/about`");
   });
 
   it("writes sitemap.ts and robots.ts when files do not exist", async () => {
@@ -66,7 +66,7 @@ describe("runInit", () => {
     const sitemap = await fs.readFile(path.join(tmpDir, "sitemap.ts"), "utf8");
     const robots = await fs.readFile(path.join(tmpDir, "robots.ts"), "utf8");
 
-    expect(sitemap).toContain('"/about"');
+    expect(sitemap).toContain("`${BASE_URL}/about`");
     expect(sitemap).toContain("TODO: dynamic route detected at /blog/[slug]");
     expect(robots).toContain('userAgent: "*"');
   });

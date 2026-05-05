@@ -9,6 +9,11 @@ function extractDynSegment(dynamicPath: string): string {
   return raw.replace(/^\[\.\.\./, "").replace(/^\[/, "").replace(/\]$/, "");
 }
 
+function capitalize(s: string): string {
+  if (!s) return s;
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 function todoBlock(dynamicPath: string): string {
   const firstDynSegment = extractDynSegment(dynamicPath);
   const prefix = (dynamicPath.split("/[")[0] ?? "").replace(/^\//, "") || firstDynSegment;
@@ -28,27 +33,31 @@ function todoBlock(dynamicPath: string): string {
   ].join("\n");
 }
 
-function capitalize(s: string): string {
-  if (!s) return s;
-  return s.charAt(0).toUpperCase() + s.slice(1);
+function staticEntryObject(urlPath: string): string {
+  const isRoot = urlPath === "/";
+  const urlExpr = isRoot ? "`${BASE_URL}`" : "`${BASE_URL}" + urlPath + "`";
+  const priority = isRoot ? "1.0" : "0.8";
+  return [
+    `    {`,
+    `      url: ${urlExpr},`,
+    `      lastModified: new Date(),`,
+    `      changeFrequency: "weekly" as const,`,
+    `      priority: ${priority},`,
+    `    },`,
+  ].join("\n");
 }
 
 export function generateSitemap(opts: SitemapOptions): string {
   const { baseUrl, staticPaths, dynamicPaths } = opts;
 
-  const staticArray =
+  const staticEntriesBody =
     staticPaths.length === 0
-      ? "[]"
-      : "[\n" + staticPaths.map((p) => `  "${p}",`).join("\n") + "\n]";
-
-  const staticMapping = [
-    `  const staticEntries = staticRoutes.map((route) => ({`,
-    `    url: \`\${BASE_URL}\${route === "/" ? "" : route}\`,`,
-    `    lastModified: new Date(),`,
-    `    changeFrequency: "weekly" as const,`,
-    `    priority: route === "/" ? 1.0 : 0.8,`,
-    `  }));`,
-  ].join("\n");
+      ? "  const staticEntries: MetadataRoute.Sitemap = [];"
+      : [
+          `  const staticEntries: MetadataRoute.Sitemap = [`,
+          ...staticPaths.map(staticEntryObject),
+          `  ];`,
+        ].join("\n");
 
   const todoParts = dynamicPaths.map(todoBlock);
 
@@ -69,10 +78,8 @@ export function generateSitemap(opts: SitemapOptions): string {
     ``,
     `const BASE_URL = "${baseUrl}";`,
     ``,
-    `const staticRoutes = ${staticArray};`,
-    ``,
     `export default async function sitemap(): Promise<MetadataRoute.Sitemap> {`,
-    staticMapping,
+    staticEntriesBody,
     ``,
     ...(todoParts.length > 0 ? [...todoParts.map((t) => t + "\n"), ``] : []),
     `  return [`,
