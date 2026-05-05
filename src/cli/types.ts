@@ -1,3 +1,7 @@
+import type { SitemapAnalysis } from "./sitemap-parse";
+
+export type { SitemapAnalysis } from "./sitemap-parse";
+
 export type Severity = "error" | "warn" | "info";
 
 export type Finding = {
@@ -18,5 +22,6 @@ export type Accumulator = {
   appDir: string;
   routes: RouteInfo[];
   sitemapFile: string | null;
+  sitemapAnalysis: SitemapAnalysis | null;
   robotsFile: string | null;
 };

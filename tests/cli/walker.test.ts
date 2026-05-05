@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { findAppDir, findSitemapAndRobots, scanRoutes } from "../../src/cli/walker";
+import { findAppDir, findSitemapAndRobots, loadSitemapAnalysis, scanRoutes } from "../../src/cli/walker";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURES = path.join(__dirname, "..", "fixtures", "cli");
@@ -51,6 +51,28 @@ describe("findSitemapAndRobots", () => {
     const result = await findSitemapAndRobots(appDir);
     expect(result.sitemapFile).toBeNull();
     expect(result.robotsFile).toBeNull();
+  });
+});
+
+describe("loadSitemapAnalysis", () => {
+  it("returns null when sitemapFile is null", async () => {
+    expect(await loadSitemapAnalysis(null)).toBeNull();
+  });
+
+  it("returns null for non-JS/TS sitemap (e.g. sitemap.xml)", async () => {
+    expect(await loadSitemapAnalysis("/fake/app/sitemap.xml")).toBeNull();
+  });
+
+  it("parses an existing TS sitemap and returns SitemapAnalysis", async () => {
+    const sitemapPath = path.join(FIXTURES, "appDir-app", "app", "sitemap.ts");
+    const result = await loadSitemapAnalysis(sitemapPath);
+    expect(result).not.toBeNull();
+    expect(result?.staticPaths).toEqual(["/"]);
+    expect(result?.hasDynamicGeneration).toBe(false);
+  });
+
+  it("returns null when the file cannot be read", async () => {
+    expect(await loadSitemapAnalysis("/nonexistent/sitemap.ts")).toBeNull();
   });
 });
 

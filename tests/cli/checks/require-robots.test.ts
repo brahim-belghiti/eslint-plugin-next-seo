@@ -7,6 +7,7 @@ function buildAcc(overrides: Partial<Accumulator> = {}): Accumulator {
     appDir: "/fake/app",
     routes: [],
     sitemapFile: null,
+    sitemapAnalysis: null,
     robotsFile: null,
     ...overrides,
   };

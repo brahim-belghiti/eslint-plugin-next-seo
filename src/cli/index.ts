@@ -7,7 +7,7 @@ import { runInit } from "./init/index";
 import { print } from "./reporter";
 import type { Accumulator, } from "./types";
 import type { InitTarget } from "./init/index";
-import { findAppDir, findSitemapAndRobots, scanRoutes } from "./walker";
+import { findAppDir, findSitemapAndRobots, loadSitemapAnalysis, scanRoutes } from "./walker";
 
 async function main(): Promise<void> {
   const { values, positionals } = parseArgs({
@@ -25,9 +25,10 @@ async function main(): Promise<void> {
   if (command === "check") {
     const appDir = await findAppDir(process.cwd(), values.dir);
     const { sitemapFile, robotsFile } = await findSitemapAndRobots(appDir);
+    const sitemapAnalysis = await loadSitemapAnalysis(sitemapFile);
     const routes = await scanRoutes(appDir);
 
-    const acc: Accumulator = { appDir, routes, sitemapFile, robotsFile };
+    const acc: Accumulator = { appDir, routes, sitemapFile, sitemapAnalysis, robotsFile };
 
     const findings = [
       ...requireSitemap.run(acc),

@@ -3,7 +3,8 @@ import path from "node:path";
 import { parse } from "@typescript-eslint/parser";
 import { findMetadataExport } from "../utils/metadata";
 import { filePathToUrlPath, isDynamicPath } from "./route-paths";
-import type { RouteInfo } from "./types";
+import { parseSitemap } from "./sitemap-parse";
+import type { RouteInfo, SitemapAnalysis } from "./types";
 
 const PAGE_FILE_RE = /^page\.(tsx|ts|jsx|js)$/;
 const SITEMAP_FILE_RE = /^sitemap\.(tsx|ts|xml)$/;
@@ -56,6 +57,19 @@ export async function findSitemapAndRobots(
   }
 
   return { sitemapFile, robotsFile };
+}
+
+export async function loadSitemapAnalysis(
+  sitemapFile: string | null,
+): Promise<SitemapAnalysis | null> {
+  if (!sitemapFile) return null;
+  if (!/\.(tsx|ts|jsx|js)$/.test(sitemapFile)) return null;
+  try {
+    const source = await fs.readFile(sitemapFile, "utf8");
+    return parseSitemap(source);
+  } catch {
+    return null;
+  }
 }
 
 async function collectPageFiles(dir: string): Promise<string[]> {
